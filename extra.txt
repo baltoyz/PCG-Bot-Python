@@ -1,0 +1,77 @@
+function batalhaLoop() {
+  var inBatalha = document.querySelector("#battle-background");
+  if (inBatalha) {
+    // selecionar randomicamente um botão de habilidade
+    var numHabilidades = 4; // número de botões de habilidade
+    var randomIndex = Math.floor(Math.random() * numHabilidades); // índice aleatório
+    var habilidadeBtn = document.querySelector("button:nth-child(" + (randomIndex + 1) + ").btn.battle-btn.col-5.mr-auto.battle-move-btn"); // seleciona o botão de habilidade correspondente ao índice
+    habilidadeBtn.click(); // clica no botão de habilidade selecionado
+	}
+}
+	setInterval(batalhaLoop, 2000); // executar a função batalhaLoop a cada 2 segundos
+
+function trocaPokeLoop() {
+  var inBatalha = document.querySelector("#battle-background");
+  if (inBatalha) {
+
+    // Selecionar pokémon vivo
+    var alivePokemons = [];
+    if (document.querySelector("div:nth-child(1) > div > div.pokemon-entry-button__health.ml-auto.mr-auto").style.cssText !== '--hp-percent:0%;') {
+      alivePokemons.push(document.querySelector("div:nth-child(1) > div.pokemon-entry-button"));
+    }
+    if (document.querySelector("div:nth-child(2) > div > div.pokemon-entry-button__health.ml-auto.mr-auto").style.cssText !== '--hp-percent:0%;') {
+      alivePokemons.push(document.querySelector("div:nth-child(2) > div.pokemon-entry-button"));
+    }
+    if (document.querySelector("div:nth-child(3) > div > div.pokemon-entry-button__health.ml-auto.mr-auto").style.cssText !== '--hp-percent:0%;') {
+      alivePokemons.push(document.querySelector("div:nth-child(3) > div.pokemon-entry-button"));
+    }
+    if (document.querySelector("div:nth-child(4) > div > div.pokemon-entry-button__health.ml-auto.mr-auto").style.cssText !== '--hp-percent:0%;') {
+      alivePokemons.push(document.querySelector("div:nth-child(4) > div.pokemon-entry-button"));
+    }
+    if (document.querySelector("div:nth-child(5) > div > div.pokemon-entry-button__health.ml-auto.mr-auto").style.cssText !== '--hp-percent:0%;') {
+      alivePokemons.push(document.querySelector("div:nth-child(5) > div.pokemon-entry-button"));
+    }
+    if (document.querySelector("div:nth-child(6) > div > div.pokemon-entry-button__health.ml-auto.mr-auto").style.cssText !== '--hp-percent:0%;') {
+      alivePokemons.push(document.querySelector("div:nth-child(6) > div.pokemon-entry-button"));
+    }
+
+    if (alivePokemons.length > 0) {
+      var randomPokemon = Math.floor(Math.random() * alivePokemons.length);
+      alivePokemons[randomPokemon].click();
+    }
+  }
+}
+
+setInterval(trocaPokeLoop, 2000); // executar a função batalhaLoop a cada 2 segundos
+
+function runLoop() {
+  // Identificar se estamos na aba de duelo
+  const duelTab = document.querySelector("div.pcg-scrollbars__content > div:nth-child(2)");
+  if (duelTab && duelTab.innerText === "Team 2" || duelTab.innerText === "Team 1" || duelTab.innerText === "Team 3") {
+    // Se estamos em batalha, aguardar para voltar a usar os botões de habilidades
+    if (document.querySelector("#battle-background")) {
+      document.querySelector("#battle-log-continue").click();
+    }
+    // Se não estamos em batalha, selecionar a dificuldade do duelo
+    else {
+      document.querySelector("button:nth-child(3).btn.btn-block.btn-dark").click();
+      // Verificar se estamos na tela de seleção de dificuldade
+      const stadiumHeader = document.querySelector("div.pcg-modal__body > h4");
+      if (stadiumHeader && stadiumHeader.textContent === "Stadium") {
+            document.querySelector("button.btn.btn-link.poketwitch__header-btn.poketwitch__header-btn--refresh").click();
+			document.querySelector("div.mx-auto.pcg-modal__content-wrapper > div > div > div > div > div.pcg-modal__body > div:nth-child(3) > button:nth-child(3)").click()
+			document.querySelector("button.btn.btn-block.btn-dark").click();
+      }
+    }
+  }
+  // Se encontramos a mensagem de "Spectate key", voltar para a tela inicial
+  else if (document.querySelector("#back-to-menu-button")) {
+    document.querySelector("#back-to-menu-button").click();
+  }
+
+  // Executar a função em loop
+  setTimeout(runLoop, 1000);
+}
+
+// Executar a função em loop
+runLoop();
